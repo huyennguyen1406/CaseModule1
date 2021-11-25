@@ -90,7 +90,8 @@ class Piece {
         for (let r = 0; r < this.activeTetromino.length; r++) {
             for (let c = 0; c < this.activeTetromino.length; c++) {
                 if(!this.activeTetromino[r][c]) {
-                    continue
+                    continue;
+                    // [this.activeTetromino + r][this.activeTetromino + c] = this.activeTetromino.shape[r][c]
                 }
                 if (this.y + r < 0) {
                     alert('Game Over');
@@ -102,6 +103,7 @@ class Piece {
             }
         }
     }
+
 
     rotate(){
         let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
