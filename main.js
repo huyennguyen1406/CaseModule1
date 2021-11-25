@@ -91,7 +91,7 @@ class Piece {
             for (let c = 0; c < this.activeTetromino.length; c++) {
                 if(!this.activeTetromino[r][c]) {
                     continue;
-                    // [this.activeTetromino + r][this.activeTetromino + c] = this.activeTetromino.shape[r][c]
+
                 }
                 if (this.y + r < 0) {
                     alert('Game Over');
@@ -141,8 +141,8 @@ class Piece {
                 if (newY < 0) {
                     continue
                 }
-                if (board[newX][newY!= COLOR]) {
-                    return true
+                if (board[newX][newY] != COLOR) {
+                    return true;
                 }
             }
         }
