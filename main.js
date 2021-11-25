@@ -60,9 +60,14 @@ class Piece {
     }
 
     moveDown() {
-        this.unDraw();
-        this.y++;
-        this.draw();
+        if (!this.collision(0, 1, this.activeTetromino)) {
+            this.unDraw();
+            this.y++;
+            this.draw();
+        } else {
+            this.lock();
+            p = randomPiece();
+        }
     }
 
     moveLeft() {
@@ -77,6 +82,42 @@ class Piece {
         if (!this.collision(1, 0, this.activeTetromino))  {
             this.unDraw();
             this.x++;
+            this.draw();
+        }
+    }
+
+    lock() {
+        for (let r = 0; r < this.activeTetromino.length; r++) {
+            for (let c = 0; c < this.activeTetromino.length; c++) {
+                if(!this.activeTetromino[r][c]) {
+                    continue
+                }
+                if (this.y + r < 0) {
+                    alert('Game Over');
+                    gameOver = true;
+                    break;
+                }
+
+                board[this.y + r][this.x + c] = this.color;
+            }
+        }
+    }
+
+    rotate(){
+        let nextPattern = this.tetromino[(this.tetrominoN + 1) % this.tetromino.length];
+        let move = 0;
+        if(this.collision(0, 0, nextPattern)) {
+            if (this.x > COL / 2) {
+                move = -1;
+            } else  {
+                move = 1;
+            }
+        }
+        if (!this.collision(0, 0, nextPattern)) {
+            this.unDraw();
+            this.x += move;
+            this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length;
+            this.activeTetromino = this.tetromino[this.tetrominoN];
             this.draw();
         }
     }
@@ -131,7 +172,7 @@ document.addEventListener("keydown", function (e) {
     } else if (e.keyCode == 39) {
         p.moveRight();
     } else if (e.keyCode == 38) {
-
+        p.rotate();
     } else if (e.keyCode == 40) {
         p.moveDown();
     }
