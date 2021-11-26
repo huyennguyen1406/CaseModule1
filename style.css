@@ -1,0 +1,13 @@
+#score{
+    display: inline-block;
+    color: aliceblue;
+}
+div{
+    font-size: 50px;
+    font-weight: bold;
+    font-family: monospace;
+    color: aliceblue;
+}
+body {
+    background-image: url("/WCCFtetriseffect.jpg");
+}
