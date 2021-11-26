@@ -61,7 +61,7 @@ function Piece(tetromino,color){
     this.tetromino = tetromino;
     this.color = color;
 
-    this.tetrominoN = 0 // we start from the frist pattern
+    this.tetrominoN = 0 // we start from the first pattern
     this.activeTetromino = this.tetromino[this.tetrominoN]
 
     //control the pieces
@@ -116,7 +116,6 @@ Piece.prototype.moveRight = function(){
 }
 
 //move Left the piece
-
 Piece.prototype.moveLeft = function(){
     if(!this.collision(-1,0,this.activeTetromino)) {
         this.unDraw();
@@ -197,7 +196,7 @@ Piece.prototype.lock = function(){
 //collision function
 
 Piece.prototype.collision = function(x,y,piece){
-    for(r=0; r <piece.length; r++){
+    for(r = 0; r < piece.length; r++){
         for (c = 0; c < piece.length; c++){
             //if the square is empty, we skip it
             if(!piece[r][c]){
@@ -212,7 +211,7 @@ Piece.prototype.collision = function(x,y,piece){
                 return true;
             }
             //skip newY; board[-1] will crash the game
-            if(newY <0){
+            if(newY < 0){
                 continue;
             }
             //check if there is a locked piece already in a place
