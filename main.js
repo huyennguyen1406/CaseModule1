@@ -57,7 +57,7 @@ let p = randomPiece();
 
 //The Object Piece
 
-function Piece(tetromino,color){
+function Piece(tetromino, color){
     this.tetromino = tetromino;
     this.color = color;
 
@@ -75,7 +75,7 @@ Piece.prototype.fill = function(color){
         for(c = 0; c < this.activeTetromino.length;c++){
             //we draw only occupied squares
             if(this.activeTetromino[r][c]){
-                drawSquare(this.x + c, this.y + r,color);
+                drawSquare(this.x + c, this.y + r, color);
             }
         }
     }
@@ -195,7 +195,7 @@ Piece.prototype.lock = function(){
 
 //collision function
 
-Piece.prototype.collision = function(x,y,piece){
+Piece.prototype.collision = function(x, y, piece){
     for(r = 0; r < piece.length; r++){
         for (c = 0; c < piece.length; c++){
             //if the square is empty, we skip it
