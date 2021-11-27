@@ -169,12 +169,12 @@ Piece.prototype.lock = function(){
     for(r = 0; r < ROW; r++){
         let isRowFull = true;
         for(c = 0 ; c < COL;c++){
-            isRowFull = isRowFull && (board[r][c] != VACANT)
+            isRowFull = isRowFull && (board[r][c] !== VACANT)
         }
         if(isRowFull){
             //if the row is full
             // we move down all the rows above it
-            for(y=r;y > 1; y--){
+            for(y = r; y > 1; y--){
                 for(c = 0; c < COL; c++){
                     board[y][c] = board[y - 1][c];
                 }
@@ -215,7 +215,7 @@ Piece.prototype.collision = function(x, y, piece){
                 continue;
             }
             //check if there is a locked piece already in a place
-            if(board[newY][newX] != VACANT){
+            if(board[newY][newX] !== VACANT){
                 return true;
             }
         }
@@ -227,16 +227,16 @@ Piece.prototype.collision = function(x, y, piece){
 document.addEventListener("keydown",CONTROL);
 
 function CONTROL(event){
-    if(event.keyCode == 37){
+    if(event.keyCode === 37){
         p.moveLeft()
 
-    }else if(event.keyCode == 38 || event.keyCode == 32){
+    }else if(event.keyCode === 38 || event.keyCode === 32){
         p.rotate();
 
-    }else if(event.keyCode == 39){
+    }else if(event.keyCode === 39){
         p.moveRight();
 
-    }else if(event.keyCode == 40){
+    }else if(event.keyCode === 40){
         p.moveDown();
     }
 }
@@ -255,3 +255,24 @@ function drop() {
     }
 }
 drop();
+
+// function test() {
+//     let name = document.getElementById("name").value
+//     let point = document.getElementById("point").value
+//     localStorage.setItem("name" + localStorage.length, name)
+//     localStorage.setItem("point" + (localStorage.length - 1), point)
+// }
+//
+// function display() {
+//     for (let i = 0; i < localStorage.length; i += 2) {
+//         document.write(localStorage.getItem("name" + i) + ": " + localStorage.getItem("point" + i) + "<br>")
+//         document.write("<br>")
+//     }
+// }
+
+// window.addEventListener("click", musicPlay);
+//
+// function musicPlay() {
+//     document.getElementById("music").play();
+//     window.removeEventListener("click",musicPlay);
+// }
