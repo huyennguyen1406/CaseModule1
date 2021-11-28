@@ -85,7 +85,7 @@ Piece.prototype.fill = function(color){
 Piece.prototype.draw = function(){
     this.fill(this.color);
 }
-//undraw a piece
+//un draw a piece
 
 Piece.prototype.unDraw = function(){
     this.fill(VACANT);
@@ -156,8 +156,9 @@ Piece.prototype.lock = function(){
             console.log(this.y + r)
             //pieces to lock on top = game over
             if(this.y + r < 0){
-                alert("Game Over");
+                // alert("Game Over");
                 // stop request animation frame
+                openForm();
                 gameOver = true;
                 break;
             }
@@ -276,3 +277,10 @@ drop();
 //     document.getElementById("music").play();
 //     window.removeEventListener("click",musicPlay);
 // }
+function openForm() {
+    document.getElementById("myForm").style.display = "block";
+}
+
+function closeForm() {
+    document.getElementById("myForm").style.display = "none";
+}

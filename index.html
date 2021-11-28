@@ -12,7 +12,14 @@
 <!--</audio>-->
 <center><canvas  id="tetris" width="400px" height="800px"></canvas>
     <div>Score : <div id="score">0</div>
-    </div></center>
+    </div>
+</center>
+<div class="form-popup" id="myForm">
+    <form action="index.html" class="form-container">
+        <h3>Game Over</h3>
+        <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+    </form>
+</div>
     <script src="shape.js"></script>
     <script src="main.js"></script>
 
