@@ -2,16 +2,19 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name ="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Tetris Game JS</title>
     <link rel="stylesheet" href="style.css">
 
 </head>
 <body>
-<!--<audio id="music"><source src="TetrisGameBoy.mp3" type="audio/mpeg">-->
-<!--</audio>-->
-<center><canvas  id="tetris" width="400px" height="800px"></canvas>
-    <div>Score : <div id="score">0</div>
+<audio id="music">
+    <source src="TetrisGameBoy.mp3" type="audio/mpeg">
+</audio>
+<center>
+    <canvas id="tetris" width="400px" height="800px"></canvas>
+    <div>Score :
+        <div id="score">0</div>
     </div>
 </center>
 <div class="form-popup" id="myForm">
@@ -20,8 +23,8 @@
         <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
     </form>
 </div>
-    <script src="shape.js"></script>
-    <script src="main.js"></script>
+<script src="shape.js"></script>
+<script src="main.js"></script>
 
 </body>
 

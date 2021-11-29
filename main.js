@@ -29,7 +29,7 @@ for(r = 0; r < ROW; r++){
 function drawBoard(){
     for(r = 0; r < ROW; r++){
         for(c = 0; c < COL; c++){
-            drawSquare(c,r,board[r][c]);
+            drawSquare(c, r, board[r][c]);
         }
     }
 }
@@ -128,7 +128,7 @@ Piece.prototype.rotate = function(){
     let nextPattern = this.tetromino[((this.tetrominoN + 1) % this.tetromino.length)]
     let kick = 0;
 
-    if(this.collision(0,0,nextPattern))
+    if(this.collision(0,0, nextPattern))
         if(this.x > COL/2){
             //it's the right wall
             kick = -1;//we need to move the piece to the left
@@ -257,26 +257,13 @@ function drop() {
 }
 drop();
 
-// function test() {
-//     let name = document.getElementById("name").value
-//     let point = document.getElementById("point").value
-//     localStorage.setItem("name" + localStorage.length, name)
-//     localStorage.setItem("point" + (localStorage.length - 1), point)
-// }
-//
-// function display() {
-//     for (let i = 0; i < localStorage.length; i += 2) {
-//         document.write(localStorage.getItem("name" + i) + ": " + localStorage.getItem("point" + i) + "<br>")
-//         document.write("<br>")
-//     }
-// }
+window.addEventListener("click", musicPlay);
 
-// window.addEventListener("click", musicPlay);
-//
-// function musicPlay() {
-//     document.getElementById("music").play();
-//     window.removeEventListener("click",musicPlay);
-// }
+function musicPlay() {
+    document.getElementById("music").play();
+    window.removeEventListener("click",musicPlay);
+}
+
 function openForm() {
     document.getElementById("myForm").style.display = "block";
 }
