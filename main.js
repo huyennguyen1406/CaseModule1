@@ -16,7 +16,6 @@ function drawSquare(x, y, color) {
 }
 
 //tạo bảng
-
 let board =[];
 for(r = 0; r < ROW; r++){
     board[r] = [];
@@ -36,7 +35,6 @@ function drawBoard(){
 drawBoard();
 
 //Vẽ khối và màu của khối
-
 const PIECES = [
     [S,"yellow"],
     [Z,"red"],
@@ -56,12 +54,11 @@ function randomPiece(){
 let p = randomPiece();
 
 //vẽ đối tượng hình khối
-
 function Piece(tetromino, color){
     this.tetromino = tetromino;
     this.color = color;
 
-    this.tetrominoN = 0 // we start from the first pattern
+    this.tetrominoN = 0 // bắt đầu từ mảnh đầu tiên
     this.activeTetromino = this.tetromino[this.tetrominoN]
 
     //điều khiển các hình khối
@@ -69,7 +66,6 @@ function Piece(tetromino, color){
     this.y = -2;
 }
 // điền chức năng
-
 Piece.prototype.fill = function(color){
     for(r = 0; r < this.activeTetromino.length; r++){
         for(c = 0; c < this.activeTetromino.length;c++){
@@ -80,19 +76,18 @@ Piece.prototype.fill = function(color){
         }
     }
 }
-//vẽ khối lên bảng
 
+//vẽ khối lên bảng
 Piece.prototype.draw = function(){
     this.fill(this.color);
 }
-//mở 1 mảnh
 
+//mở 1 mảnh
 Piece.prototype.unDraw = function(){
     this.fill(VACANT);
 }
 
 //di chuyển mảnh xuống dưới
-
 Piece.prototype.moveDown = function(){
     if(!this.collision(0,1,this.activeTetromino)) {
         this.unDraw();
@@ -106,7 +101,6 @@ Piece.prototype.moveDown = function(){
 }
 
 //di chuyển mảnh sang phải
-
 Piece.prototype.moveRight = function(){
     if(!this.collision(1,0,this.activeTetromino)) {
         this.unDraw();
@@ -123,6 +117,7 @@ Piece.prototype.moveLeft = function(){
         this.draw();
     }
 }
+
 //điều khiển xoay mảnh
 Piece.prototype.rotate = function(){
     let nextPattern = this.tetromino[((this.tetrominoN + 1) % this.tetromino.length)]
@@ -136,7 +131,7 @@ Piece.prototype.rotate = function(){
             //it's the left wall
             kick = 1;//we need to move the piece to the right
         }
-    if(!this.collision(kick,0,nextPattern)) {
+    if(!this.collision(kick,0, nextPattern)) {
         this.unDraw();
         this.x += kick;
         this.tetrominoN = (this.tetrominoN + 1) % this.tetromino.length; // (0 + 1) % 4 => 1
@@ -166,6 +161,7 @@ Piece.prototype.lock = function(){
             board[this.y + r][this.x + c] = this.color;
         }
     }
+
     //loại bỏ các hàng đầy đủ
     for(r = 0; r < ROW; r++){
         let isRowFull = true;
@@ -195,7 +191,6 @@ Piece.prototype.lock = function(){
 }
 
 //chức năng khi va chạm
-
 Piece.prototype.collision = function(x, y, piece){
     for(r = 0; r < piece.length; r++){
         for (c = 0; c < piece.length; c++){
@@ -256,7 +251,7 @@ function drop() {
     }
 }
 drop();
-
+//thêm nhạc
 window.addEventListener("click", musicPlay);
 
 function musicPlay() {
@@ -267,7 +262,6 @@ function musicPlay() {
 function openForm() {
     document.getElementById("myForm").style.display = "block";
 }
-
 function closeForm() {
     document.getElementById("myForm").style.display = "none";
 }
