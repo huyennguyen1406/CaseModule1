@@ -4,9 +4,9 @@ const scoreElement = document.getElementById("score")
 const  ROW = 20;
 const COL = COLUMN = 10;
 const SQ = squareSize = 40;
-const VACANT = "WHITE" //color of an empty space
+const VACANT = "WHITE" //màu của ô trống
 
-//draw a square
+//vẽ khối vuông
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * SQ, y * SQ, SQ, SQ);
@@ -15,7 +15,7 @@ function drawSquare(x, y, color) {
     ctx.strokeRect(x * SQ, y * SQ, SQ, SQ);
 }
 
-// create the board
+//tạo bảng
 
 let board =[];
 for(r = 0; r < ROW; r++){
@@ -25,7 +25,7 @@ for(r = 0; r < ROW; r++){
     }
 }
 
-//draw the board
+//vẽ bảng
 function drawBoard(){
     for(r = 0; r < ROW; r++){
         for(c = 0; c < COL; c++){
@@ -35,7 +35,7 @@ function drawBoard(){
 }
 drawBoard();
 
-//The pieces and their color
+//Vẽ khối và màu của khối
 
 const PIECES = [
     [S,"yellow"],
@@ -46,16 +46,16 @@ const PIECES = [
     [I,"cyan"],
     [J,"orange"]
 ];
-// generate random pieces
+// random các mảnh
 function randomPiece(){
     let r = randomN = Math.floor(Math.random() * PIECES.length) // 0 -> 6
     return new Piece(PIECES[r][0], PIECES[r][1])
 }
-// initiate a piece
+// bắt đầu mảnh mới
 
 let p = randomPiece();
 
-//The Object Piece
+//vẽ đối tượng hình khối
 
 function Piece(tetromino, color){
     this.tetromino = tetromino;
@@ -64,34 +64,34 @@ function Piece(tetromino, color){
     this.tetrominoN = 0 // we start from the first pattern
     this.activeTetromino = this.tetromino[this.tetrominoN]
 
-    //control the pieces
+    //điều khiển các hình khối
     this.x = 3;
     this.y = -2;
 }
-// fill function
+// điền chức năng
 
 Piece.prototype.fill = function(color){
     for(r = 0; r < this.activeTetromino.length; r++){
         for(c = 0; c < this.activeTetromino.length;c++){
-            //we draw only occupied squares
+            //vẽ các khối vuông bị chiếm
             if(this.activeTetromino[r][c]){
                 drawSquare(this.x + c, this.y + r, color);
             }
         }
     }
 }
-//draw a pieces to the board
+//vẽ khối lên bảng
 
 Piece.prototype.draw = function(){
     this.fill(this.color);
 }
-//un draw a piece
+//mở 1 mảnh
 
 Piece.prototype.unDraw = function(){
     this.fill(VACANT);
 }
 
-//move Down the piece
+//di chuyển mảnh xuống dưới
 
 Piece.prototype.moveDown = function(){
     if(!this.collision(0,1,this.activeTetromino)) {
@@ -99,13 +99,13 @@ Piece.prototype.moveDown = function(){
         this.y++;
         this.draw();
     }else{
-        //we lock the piece and generate new one
+        //khóa và tạo ra mảnh mới
         this.lock();
         p = randomPiece();
     }
 }
 
-//move Right the piece
+//di chuyển mảnh sang phải
 
 Piece.prototype.moveRight = function(){
     if(!this.collision(1,0,this.activeTetromino)) {
@@ -115,7 +115,7 @@ Piece.prototype.moveRight = function(){
     }
 }
 
-//move Left the piece
+//di chuyển mảnh sang trái
 Piece.prototype.moveLeft = function(){
     if(!this.collision(-1,0,this.activeTetromino)) {
         this.unDraw();
@@ -123,15 +123,15 @@ Piece.prototype.moveLeft = function(){
         this.draw();
     }
 }
-//rotate the piece
+//điều khiển xoay mảnh
 Piece.prototype.rotate = function(){
     let nextPattern = this.tetromino[((this.tetrominoN + 1) % this.tetromino.length)]
     let kick = 0;
 
     if(this.collision(0,0, nextPattern))
         if(this.x > COL/2){
-            //it's the right wall
-            kick = -1;//we need to move the piece to the left
+            //nếu gặp tường bên phải
+            kick = -1;//cần di chuyển mảnh sang trái
         }else{
             //it's the left wall
             kick = 1;//we need to move the piece to the right
@@ -149,7 +149,7 @@ let score = 0;
 Piece.prototype.lock = function(){
     for(r = 0; r < this.activeTetromino.length; r++){
         for(c = 0; c < this.activeTetromino.length; c++){
-            //we skip the vacant squares
+            //bỏ qua các ô trống
             if(!this.activeTetromino[r][c]){
                 continue;
             }
@@ -157,65 +157,65 @@ Piece.prototype.lock = function(){
             //pieces to lock on top = game over
             if(this.y + r < 0){
                 // alert("Game Over");
-                // stop request animation frame
+                // yêu cầu dừng khung hình
                 openForm();
                 gameOver = true;
                 break;
             }
-            //we lock the piece
+            //khóa mảng
             board[this.y + r][this.x + c] = this.color;
         }
     }
-    //remove full rows
+    //loại bỏ các hàng đầy đủ
     for(r = 0; r < ROW; r++){
         let isRowFull = true;
         for(c = 0 ; c < COL;c++){
             isRowFull = isRowFull && (board[r][c] !== VACANT)
         }
         if(isRowFull){
-            //if the row is full
-            // we move down all the rows above it
+            //khi hàng đầy
+            // di chuyển xuống tất cả các hàng phía trên nó
             for(y = r; y > 1; y--){
                 for(c = 0; c < COL; c++){
                     board[y][c] = board[y - 1][c];
                 }
             }
-            //the top row board[0][..] has no row above it
+            //bảng hàng trên cùng [0][..] không có hàng nào phía trên
             for(c = 0; c < COL; c++){
                 board[0][c] = VACANT;
             }
-            //increment the score
+            //cộng điểm
             score += 10;
         }
     }
-    //update the board
+    //cập nhật bảng
     drawBoard();
-    //update the score
+    //cập nhật điểm
     scoreElement.innerHTML= score;
 }
 
-//collision function
+//chức năng khi va chạm
 
 Piece.prototype.collision = function(x, y, piece){
     for(r = 0; r < piece.length; r++){
         for (c = 0; c < piece.length; c++){
-            //if the square is empty, we skip it
+            //nếu hình khối trống, bỏ qua nó
             if(!piece[r][c]){
                 continue;
             }
-            //coordinates of the piece after movement
+            //tọa độ của mảnh sau khi chuyển động
             let newX = this.x + c + x ;
             let newY = this.y + r + y ;
 
-            //condition
+            //điều kiện
             if(newX < 0 || newX >= COL || newY >= ROW){
                 return true;
             }
-            //skip newY; board[-1] will crash the game
+            //bỏ qua newY[-1], trò chơi sụp đổ
             if(newY < 0){
                 continue;
             }
-            //check if there is a locked piece already in a place
+            //kiểm tra xem có một mảnh bị khóa ở một nơi không
             if(board[newY][newX] !== VACANT){
                 return true;
             }
@@ -224,7 +224,7 @@ Piece.prototype.collision = function(x, y, piece){
     return false;
 }
 
-//CONTROL the piece
+//Kiểm soát mảnh
 document.addEventListener("keydown",CONTROL);
 
 function CONTROL(event){
@@ -241,7 +241,7 @@ function CONTROL(event){
         p.moveDown();
     }
 }
-//drop the pieces every 1sec
+//các mảnh rơi sau 1sec
 let dropStart = Date.now();
 let gameOver = false;
 function drop() {
