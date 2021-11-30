@@ -4,9 +4,9 @@ const scoreElement = document.getElementById("score")
 const  ROW = 20;
 const COL = COLUMN = 10;
 const SQ = squareSize = 40;
-const VACANT = "WHITE" //màu của ô trống
+const VACANT = "WHITE" //mau o trong
 
-//vẽ khối vuông
+//ve khoi vuong
 function drawSquare(x, y, color) {
     ctx.fillStyle = color;
     ctx.fillRect(x * SQ, y * SQ, SQ, SQ);
@@ -15,7 +15,7 @@ function drawSquare(x, y, color) {
     ctx.strokeRect(x * SQ, y * SQ, SQ, SQ);
 }
 
-//tạo bảng
+//tao bang
 let board =[];
 for(r = 0; r < ROW; r++){
     board[r] = [];
@@ -24,7 +24,7 @@ for(r = 0; r < ROW; r++){
     }
 }
 
-//vẽ bảng
+//ve bang
 function drawBoard(){
     for(r = 0; r < ROW; r++){
         for(c = 0; c < COL; c++){
@@ -32,9 +32,10 @@ function drawBoard(){
         }
     }
 }
+
 drawBoard();
 
-//Vẽ khối và màu của khối
+//Ve khoi & mau cua khoi
 const PIECES = [
     [S,"yellow"],
     [Z,"red"],
@@ -44,28 +45,29 @@ const PIECES = [
     [I,"cyan"],
     [J,"orange"]
 ];
-// random các mảnh
+// random các manh
 function randomPiece(){
     let r = randomN = Math.floor(Math.random() * PIECES.length) // 0 -> 6
     return new Piece(PIECES[r][0], PIECES[r][1])
 }
-// bắt đầu mảnh mới
+// bat dau manh moi
 
 let p = randomPiece();
 
-//vẽ đối tượng hình khối
+//ve doi tuong hinh khoi
 function Piece(tetromino, color){
     this.tetromino = tetromino;
     this.color = color;
 
-    this.tetrominoN = 0 // bắt đầu từ mảnh đầu tiên
+    this.tetrominoN = 0 // bat dau manh dau tien
     this.activeTetromino = this.tetromino[this.tetrominoN]
 
-    //điều khiển các hình khối
+    //dieu khien cac hinh khoi
     this.x = 3;
     this.y = -2;
 }
-// điền chức năng
+
+// dien chuc nang
 Piece.prototype.fill = function(color){
     for(r = 0; r < this.activeTetromino.length; r++){
         for(c = 0; c < this.activeTetromino.length;c++){
@@ -77,30 +79,30 @@ Piece.prototype.fill = function(color){
     }
 }
 
-//vẽ khối lên bảng
+//ve khoi len bang
 Piece.prototype.draw = function(){
     this.fill(this.color);
 }
 
-//mở 1 mảnh
+//mo 1 manh
 Piece.prototype.unDraw = function(){
     this.fill(VACANT);
 }
 
-//di chuyển mảnh xuống dưới
+//di chuyen manh xuong duoi
 Piece.prototype.moveDown = function(){
     if(!this.collision(0,1,this.activeTetromino)) {
         this.unDraw();
         this.y++;
         this.draw();
     }else{
-        //khóa và tạo ra mảnh mới
+        //khoa va tao manh moi
         this.lock();
         p = randomPiece();
     }
 }
 
-//di chuyển mảnh sang phải
+//di chuyen manh sang phai
 Piece.prototype.moveRight = function(){
     if(!this.collision(1,0,this.activeTetromino)) {
         this.unDraw();
@@ -109,7 +111,7 @@ Piece.prototype.moveRight = function(){
     }
 }
 
-//di chuyển mảnh sang trái
+//di chuyen manh sang phai
 Piece.prototype.moveLeft = function(){
     if(!this.collision(-1,0,this.activeTetromino)) {
         this.unDraw();
@@ -118,7 +120,7 @@ Piece.prototype.moveLeft = function(){
     }
 }
 
-//điều khiển xoay mảnh
+//dieu khien xoay manh
 Piece.prototype.rotate = function(){
     let nextPattern = this.tetromino[((this.tetrominoN + 1) % this.tetromino.length)]
     let kick = 0;
@@ -144,7 +146,7 @@ let score = 0;
 Piece.prototype.lock = function(){
     for(r = 0; r < this.activeTetromino.length; r++){
         for(c = 0; c < this.activeTetromino.length; c++){
-            //bỏ qua các ô trống
+            //bo qua o trong
             if(!this.activeTetromino[r][c]){
                 continue;
             }
@@ -152,17 +154,17 @@ Piece.prototype.lock = function(){
             //pieces to lock on top = game over
             if(this.y + r < 0){
                 // alert("Game Over");
-                // yêu cầu dừng khung hình
+                // yeu cau dung khung hinh
                 openForm();
                 gameOver = true;
                 break;
             }
-            //khóa mảng
+            //khoa mang
             board[this.y + r][this.x + c] = this.color;
         }
     }
 
-    //loại bỏ các hàng đầy đủ
+    //loai bo cac hang day du
     for(r = 0; r < ROW; r++){
         let isRowFull = true;
         for(c = 0 ; c < COL;c++){
@@ -184,25 +186,25 @@ Piece.prototype.lock = function(){
             score += 10;
         }
     }
-    //cập nhật bảng
+    //cap nhat bang
     drawBoard();
-    //cập nhật điểm
+    //cap nhat diem
     scoreElement.innerHTML= score;
 }
 
-//chức năng khi va chạm
+//chuc nang va cham
 Piece.prototype.collision = function(x, y, piece){
     for(r = 0; r < piece.length; r++){
         for (c = 0; c < piece.length; c++){
-            //nếu hình khối trống, bỏ qua nó
+            //neu hinh khoi trong, bo qua no
             if(!piece[r][c]){
                 continue;
             }
-            //tọa độ của mảnh sau khi chuyển động
+            //toa do cac mang sau chuyen dong
             let newX = this.x + c + x ;
             let newY = this.y + r + y ;
 
-            //điều kiện
+            //dieu kien
             if(newX < 0 || newX >= COL || newY >= ROW){
                 return true;
             }
@@ -219,7 +221,7 @@ Piece.prototype.collision = function(x, y, piece){
     return false;
 }
 
-//Kiểm soát mảnh
+//Kiem soat mang
 document.addEventListener("keydown",CONTROL);
 
 function CONTROL(event){
@@ -236,7 +238,7 @@ function CONTROL(event){
         p.moveDown();
     }
 }
-//các mảnh rơi sau 1sec
+//cac manh roi sau 1sec
 let dropStart = Date.now();
 let gameOver = false;
 function drop() {
@@ -251,7 +253,7 @@ function drop() {
     }
 }
 drop();
-//thêm nhạc
+//add music
 window.addEventListener("click", musicPlay);
 
 function musicPlay() {
