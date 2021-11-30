@@ -26,8 +26,8 @@ for(r = 0; r < ROW; r++){
 
 //ve bang
 function drawBoard(){
-    for(r = 0; r < ROW; r++){
-        for(c = 0; c < COL; c++){
+    for(let r = 0; r < ROW; r++){
+        for(let c = 0; c < COL; c++){
             drawSquare(c, r, board[r][c]);
         }
     }
@@ -69,8 +69,8 @@ function Piece(tetromino, color){
 
 // dien chuc nang
 Piece.prototype.fill = function(color){
-    for(r = 0; r < this.activeTetromino.length; r++){
-        for(c = 0; c < this.activeTetromino.length;c++){
+    for(let r = 0; r < this.activeTetromino.length; r++){
+        for(let c = 0; c < this.activeTetromino.length;c++){
             //vẽ các khối vuông bị chiếm
             if(this.activeTetromino[r][c]){
                 drawSquare(this.x + c, this.y + r, color);
@@ -144,13 +144,13 @@ Piece.prototype.rotate = function(){
 let score = 0;
 
 Piece.prototype.lock = function(){
-    for(r = 0; r < this.activeTetromino.length; r++){
-        for(c = 0; c < this.activeTetromino.length; c++){
+    for(let r = 0; r < this.activeTetromino.length; r++){
+        for(let c = 0; c < this.activeTetromino.length; c++){
             //bo qua o trong
             if(!this.activeTetromino[r][c]){
                 continue;
             }
-            console.log(this.y + r)
+            // console.log(this.y + r)
             //pieces to lock on top = game over
             if(this.y + r < 0){
                 // alert("Game Over");
@@ -165,24 +165,24 @@ Piece.prototype.lock = function(){
     }
 
     //loai bo cac hang day du
-    for(r = 0; r < ROW; r++){
+    for(let r = 0; r < ROW; r++){
         let isRowFull = true;
-        for(c = 0 ; c < COL;c++){
+        for(let c = 0 ; c < COL;c++){
             isRowFull = isRowFull && (board[r][c] !== VACANT)
         }
         if(isRowFull){
-            //khi hàng đầy
-            // di chuyển xuống tất cả các hàng phía trên nó
-            for(y = r; y > 1; y--){
+            //khi hang day
+            // di chuyen xuong tat ca cac hang phia tren no
+            for(let y = r; y > 1; y--){
                 for(c = 0; c < COL; c++){
                     board[y][c] = board[y - 1][c];
                 }
             }
-            //bảng hàng trên cùng [0][..] không có hàng nào phía trên
-            for(c = 0; c < COL; c++){
+            //bang hang phia tren cung[0][..] khhong co hang nao phia tren
+            for(let c = 0; c < COL; c++){
                 board[0][c] = VACANT;
             }
-            //cộng điểm
+            //cong diem
             score += 10;
         }
     }
@@ -194,8 +194,8 @@ Piece.prototype.lock = function(){
 
 //chuc nang va cham
 Piece.prototype.collision = function(x, y, piece){
-    for(r = 0; r < piece.length; r++){
-        for (c = 0; c < piece.length; c++){
+    for(let r = 0; r < piece.length; r++){
+        for (let c = 0; c < piece.length; c++){
             //neu hinh khoi trong, bo qua no
             if(!piece[r][c]){
                 continue;
